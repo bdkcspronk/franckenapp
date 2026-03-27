@@ -1,6 +1,7 @@
 // Central theme and small helpers for styling across the app.
 import React, { createContext, useContext } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform, StatusBar as RNStatusBar } from 'react-native';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const colors = {
   primary: '#e62c2c',
@@ -48,10 +49,23 @@ export function ThemeProvider({ children }) {
   // apply global default Text color to the chosen theme text token
   Text.defaultProps = Text.defaultProps || {};
   Text.defaultProps.style = { ...(Text.defaultProps.style || {}), color: Theme.colors.textDark };
+  function ThemeInterior() {
+    const insets = useSafeAreaInsets();
+    return (
+      <View style={{ flex: 1 }}>
+        {insets.top ? (
+          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: insets.top, backgroundColor: Theme.colors.card }} />
+        ) : null}
+        <View style={{ flex: 1, backgroundColor: Theme.colors.canvas }}>{children}</View>
+      </View>
+    );
+  }
 
   return (
     <ThemeContext.Provider value={Theme}>
-      <View style={{ flex: 1, backgroundColor: Theme.colors.canvas }}>{children}</View>
+      <SafeAreaProvider>
+        <ThemeInterior />
+      </SafeAreaProvider>
     </ThemeContext.Provider>
   );
 }

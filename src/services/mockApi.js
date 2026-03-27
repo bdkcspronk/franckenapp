@@ -58,7 +58,8 @@ export async function cancelSignUp(eventId, memberId) {
 export async function topUp(memberId, amount) {
   const m = state.members.find((x) => x.id === memberId);
   if (!m) return { ok: false };
-  m.balance = Number((m.balance + amount).toFixed(2));
+  // amounts are in cents (integers). Add directly and return new cents balance.
+  m.balance = (typeof m.balance === 'number' ? m.balance : 0) + (typeof amount === 'number' ? amount : 0);
   return { ok: true, balance: m.balance };
 }
 

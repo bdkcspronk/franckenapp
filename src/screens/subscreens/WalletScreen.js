@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Button, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '../../theme';
 import { useAuth } from '../../contexts/AuthContext';
 import MemberQRCode from '../../components/MemberQRCode';
@@ -11,10 +11,11 @@ export default function WalletScreen() {
 
   if (!user) return null;
 
-  // numeric balance (use `user.balance` if provided, otherwise fallback)
-  const balanceValue = typeof user.balance === 'number' ? user.balance : 90.99;
+  // numeric balance in cents (use `user.balance` if provided, otherwise fallback to 9099 cents = €90.99)
+  const balanceCents = typeof user.balance === 'number' ? user.balance : 9099;
 
-  const formatBalance = (v) => {
+  const formatBalance = (cents) => {
+    const v = cents / 100;
     try {
       return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(v);
     } catch (e) {
@@ -50,10 +51,13 @@ export default function WalletScreen() {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   };
 
-  // mapping: <= €2 => red (hue 0), >= €10 => green (hue 120), interpolate hue only
+  // mapping: <= €2 => red (hue 0), >= €10 => green (hue 120)
+  // amounts are in cents now: thresholds 200 and 1000 cents
   const redHue = 0;
   const greenHue = 120;
-  const t = balanceValue <= 2 ? 0 : balanceValue >= 10 ? 1 : (balanceValue - 2) / 8;
+  const redCents = 200;
+  const greenCents = 1000;
+  const t = balanceCents <= redCents ? 0 : balanceCents >= greenCents ? 1 : (balanceCents - redCents) / (greenCents - redCents);
   const hue = redHue + (greenHue - redHue) * t;
   const saturation = 0.92; // high saturation for vivid colors
   const lightness = 0.5; // mid lightness for contrast
@@ -65,57 +69,63 @@ export default function WalletScreen() {
   const payload = makeQrPayload(user.uid || user.email, TEST_SECRET, now);
   const decoded = decodeQrPayload(payload, TEST_SECRET);
 
-  // sample/fake purchases for UI preview
+  // sample/fake purchases for UI preview (amounts in cents)
   const samplePurchases = [
-    { id: 'p1', date: '2026-03-20', title: 'Pepsi Max', amount: -0.88 },
-    { id: 'p2', date: '2026-03-15', title: 'Noodles', amount: -0.40 },
-    { id: 'p3', date: '2026-02-28', title: 'Membership Fee 2026', amount: -5.0 },
-    { id: 'p4', date: '2026-01-10', title: 'Declaration Fraccie: Cups', amount: 2.12 },
+    { id: 'p1', date: '2026-03-20', title: 'Pepsi Max', amount: -88 },
+    { id: 'p2', date: '2026-03-15', title: 'Noodles', amount: -40 },
+    { id: 'p3', date: '2026-02-28', title: 'Membership Fee 2026', amount: -500 },
+    { id: 'p4', date: '2026-01-10', title: 'Declaration Fraccie: Cups', amount: 212 },
   ];
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1, padding: theme.spacing.xl }}>
-      <View style={{ alignItems: 'center', marginBottom: theme.spacing.xxl }}>
-        <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Member Card:</Text>
-        <MemberQRCode memberId={user.uid || user.email} size={220} now={now} />
+    <FlatList
+      data={samplePurchases}
+      keyExtractor={(i) => i.id}
+      contentContainerStyle={{ padding: theme.spacing.xl }}
+      ListHeaderComponent={() => (
+        <>
+          <View style={{ alignItems: 'center', marginBottom: theme.spacing.xxl }}>
+            <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Member Card:</Text>
+            <MemberQRCode memberId={user.uid || user.email} size={220} now={now} />
 
-        <TouchableOpacity style={{ backgroundColor: theme.colors.primary, marginTop: theme.spacing.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, borderRadius: 6 }} onPress={() => setNow(new Date().toISOString())}>
-          <Text style={{ color: theme.colors.textLight, ...theme.typography.label }}>Refresh QR</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={{ backgroundColor: theme.colors.primary, marginTop: theme.spacing.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, borderRadius: 6 }} onPress={() => setNow(new Date().toISOString())}>
+              <Text style={{ color: theme.colors.textLight, ...theme.typography.label }}>Refresh QR</Text>
+            </TouchableOpacity>
 
-        {decoded && decoded.ok && decoded.valid && (
-          <Text style={{ marginTop: theme.spacing.sm, ...theme.typography.body }}>Generated: {new Date(decoded.ts).toLocaleString()}</Text>
-        )}
-      </View>
-      
-      <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: theme.spacing.xl }}>
-        <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Balance:</Text>
-        <Text style={{ fontSize: 50, lineHeight: 100, color: amountColor, textAlign: 'center', fontWeight: '700' }}>{formatBalance(balanceValue)}</Text>
-        <View style={{ marginTop: theme.spacing.md }}>
-          <Button color={theme.colors.accent} title="Top up" onPress={() => alert('Top-up flow not implemented')} />
-        </View>
-      </View>
+            {decoded && decoded.ok && decoded.valid && (
+              <Text style={{ marginTop: theme.spacing.sm, ...theme.typography.body }}>Generated: {new Date(decoded.ts).toLocaleString()}</Text>
+            )}
+          </View>
 
-      <View style={{ marginBottom: theme.spacing.xl }}>
-        <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Recent Transactions</Text>
-        <FlatList
-          data={samplePurchases}
-          keyExtractor={(i) => i.id}
-          renderItem={({ item }) => (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: theme.spacing.sm }}>
-              <View>
-                <Text style={{ ...theme.typography.body, color: theme.colors.text }}>{item.title}</Text>
-                <Text style={{ ...theme.typography.label, color: theme.colors.muted }}>{new Date(item.date).toLocaleDateString()}</Text>
-              </View>
-              <Text style={{ ...theme.typography.body, color: item.amount < 0 ? theme.colors.danger : theme.colors.primary }}>{formatBalance(item.amount)}</Text>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: theme.spacing.xl }}>
+            <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Balance:</Text>
+            <Text style={{ fontSize: 50, lineHeight: 100, color: amountColor, textAlign: 'center', fontWeight: '700' }}>{formatBalance(balanceCents)}</Text>
+            <View style={{ marginTop: theme.spacing.md }}>
+              <Button color={theme.colors.accent} title="Top up" onPress={() => alert('Top-up flow not implemented')} />
             </View>
-            
-          )}
-        />
-        <View style={{ marginTop: theme.spacing.xl }}>
-                <Button color={theme.colors.accent} title="All transactions" onPress={() => alert('Transaction details not implemented')}/>
-              </View>
-      </View>
-    </ScrollView>
+          </View>
+
+          <View style={{ marginBottom: theme.spacing.xl }}>
+            <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>Recent Transactions</Text>
+          </View>
+        </>
+      )}
+      renderItem={({ item }) => (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: theme.spacing.sm }}>
+          <View>
+            <Text style={{ ...theme.typography.body, color: theme.colors.text }}>{item.title}</Text>
+            <Text style={{ ...theme.typography.label, color: theme.colors.muted }}>{new Date(item.date).toLocaleDateString()}</Text>
+          </View>
+          <Text style={{ ...theme.typography.body, color: item.amount < 0 ? theme.colors.danger : theme.colors.primary }}>{formatBalance(item.amount)}</Text>
+        </View>
+      )}
+      ListFooterComponent={() => (
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: theme.spacing.md }}>
+          <View style={{ marginTop: theme.spacing.xl }}>
+            <Button color={theme.colors.accent} title="All transactions" onPress={() => alert('Transaction details not implemented')} />
+          </View>
+        </View>
+      )}
+    />
   );
 }

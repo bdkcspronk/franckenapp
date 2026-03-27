@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, FlatList, Image, ImageBackground } from 'react-native';
+import { View, Text, FlatList, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
 
 const board = [
@@ -14,9 +15,10 @@ const bannerImg = require('../../../assets/board/flux/banner.jpg');
 
 export default function BoardScreen() {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
   return (
     <View style={{ flex:1, padding: theme.spacing.xxl }}>
-      < Text style={{ ...theme.typography.h1, color: theme.colors.accent, marginBottom: theme.spacing.lg }}>2025-2026</Text>
+      <Text style={{ ...theme.typography.h1, color: theme.colors.textDark, marginBottom: theme.spacing.sm, textAlign: 'center' }}>2025-2026</Text>
       <ImageBackground
         source={bannerImg}
         style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 12, overflow: 'hidden', marginBottom: theme.spacing.lg }}
@@ -31,6 +33,7 @@ export default function BoardScreen() {
       <FlatList
         data={board}
         keyExtractor={(i) => i.id}
+        contentContainerStyle={{ paddingBottom: insets.bottom + theme.spacing.xl + 12 }}
         renderItem={({ item }) => (
           <View style={{ padding: theme.spacing.md }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -43,6 +46,23 @@ export default function BoardScreen() {
           </View>
         )}
       />
+
+      <TouchableOpacity
+        activeOpacity={0.85}
+        onPress={() => alert('Not implemented yet')}
+        style={{
+          position: 'absolute',
+          left: theme.spacing.lg,
+          right: theme.spacing.lg,
+          bottom: insets.bottom + theme.spacing.md,
+          backgroundColor: theme.colors.primary,
+          paddingVertical: theme.spacing.md,
+          borderRadius: 10,
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ color: theme.colors.textLight, ...theme.typography.label }}>Previous boards coming soon!</Text>
+      </TouchableOpacity>
     </View>
   );
 }
