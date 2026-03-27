@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Linking } from 'react-native';
-import { useTheme } from '../theme';
+import { useTheme } from '../../theme';
 
 // TODO: replace with your real latest-issue URL or a fetch that returns the latest file
 const LATEST_ISSUE_URL = 'https://example.com/francken-vrij-latest.pdf';
@@ -17,12 +17,12 @@ export default function FranckenVrijScreen() {
   }
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: theme.spacing.xl }}>
       <Text style={theme.typography.h2}>Francken Vrij</Text>
-      <Text style={{ marginTop: 8, ...theme.typography.body }}>Download the latest issue of our association magazine.</Text>
+      <Text style={{ marginTop: theme.spacing.sm, ...theme.typography.body }}>Download the latest issue of our association magazine.</Text>
 
       <TouchableOpacity
-        style={{ marginTop: 20, paddingVertical: 12, paddingHorizontal: 16, borderRadius: 8, backgroundColor: theme.colors.primary }}
+        style={{ marginTop: theme.spacing.md, paddingVertical: theme.spacing.sm, paddingHorizontal: theme.spacing.md, borderRadius: 8, backgroundColor: theme.colors.primary }}
         onPress={handleOpen}
       >
         <Text style={{ color: theme.colors.textLight, ...theme.typography.label }}>Download Latest Issue</Text>

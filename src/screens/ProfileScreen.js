@@ -20,43 +20,40 @@ export default function ProfileScreen() {
 
     // Row 2
     { key: 'wallet', label: 'Wallet', route: 'Wallet' },
-    { key: 'purchases', label: 'Past Purchases', route: 'Purchases' },
-    { key: 'member', label: 'Member Card', route: 'MemberCard' },
-
-    // Row 3
     { key: 'photos', label: 'Photos', route: 'Photos' },
     { key: 'board', label: 'Board', route: 'Board' },
-    { key: 'vrij', label: 'Francken Vrij', route: 'FranckenVrij' },
 
-    // Row 4
+    // Row 3
+    { key: 'vrij', label: 'Francken Vrij', route: 'FranckenVrij' },
     { key: 'privacy', label: 'Privacy', route: 'Privacy' },
+    { key: 'placeholder', label: 'Placeholder', route: 'Placeholder' },
   ];
 
   const cols = 3;
   const screenWidth = Dimensions.get('window').width;
-  const padding = 16 * 2; // container horizontal padding
-  const gap = 12;
+  const padding = 0 * 2; // container horizontal padding
+  const gap = theme.spacing.xl;
   const tileSize = Math.floor((screenWidth - padding - gap * (cols - 1)) / cols);
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: theme.spacing.lg, backgroundColor: theme.colors.background }}>
       <ProfileHeader user={user} onSignOut={signOut} onLogin={() => navigation.navigate('Login')} />
       {user ? (
-        <View style={{ marginTop: 12 }}>
+        <View style={{ marginTop: theme.spacing.xl }}>
           <View>
             {(() => {
               // chunk tiles into rows of `cols`
               const rows = [];
               for (let i = 0; i < tiles.length; i += cols) rows.push(tiles.slice(i, i + cols));
               return rows.map((row, rowIndex) => (
-                <View key={`row-${rowIndex}`} style={[styles.gridRow, { marginBottom: 12 }]}> 
+                <View key={`row-${rowIndex}`} style={[styles.gridRow, { marginBottom: theme.spacing.md }]}> 
                   {row.map((t, colIndex) => {
                     // checkerboard: alternate per column, flip each row
-                    const bg = (rowIndex + colIndex) % 2 === 0 ? theme.colors.surfaceAlt1 : theme.colors.surfaceAlt2;
+                    const bg = (rowIndex + colIndex) % 2 === 0 ? theme.colors.surfaceAlt1 : theme.colors.surfaceAlt1;
                     return (
                       <TouchableOpacity
                         key={t.key}
-                        style={[styles.tile, { width: tileSize, height: tileSize, backgroundColor: bg }]}
+                        style={[styles.tile, { width: tileSize, height: tileSize, backgroundColor: bg, padding: theme.spacing.sm }]}
                         onPress={() => {
                           const rootNav = navigation.getParent?.()?.getParent?.() || navigation.getParent?.() || navigation;
                           rootNav.navigate(t.route);
@@ -72,7 +69,7 @@ export default function ProfileScreen() {
           </View>
         </View>
       ) : (
-        <View style={{ marginTop: 24 }}>
+        <View style={{ marginTop: theme.spacing.xl }}>
           <Text style={theme.typography.body}>Please log in to view your profile.</Text>
         </View>
       )}
@@ -91,10 +88,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   tile: {
-    borderRadius: 8,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
-    padding: 12,
   },
 });

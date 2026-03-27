@@ -51,8 +51,16 @@ export default function EventsScreen() {
   function renderEventItem(item, index) {
     const bg = index % 2 === 0 ? theme.colors.surfaceAlt1 : theme.colors.surfaceAlt2;
     return (
-      <TouchableOpacity onPress={() => (navigation.getParent ? navigation.getParent().navigate('Event Details', { event: item }) : navigation.navigate('Event Details', { event: item }))}>
-        <View style={{ paddingVertical: 16, paddingHorizontal: 16, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.colors.background, backgroundColor: bg, marginBottom: 12, borderRadius: 8 }}>
+      <TouchableOpacity
+        onPress={() => {
+          const passedEvent = { ...item };
+          // remove non-serializable Date instance before passing via navigation
+          if (passedEvent && passedEvent._date instanceof Date) delete passedEvent._date;
+          const targetNav = navigation.getParent ? navigation.getParent() : navigation;
+          targetNav.navigate('Event Details', { event: passedEvent });
+        }}
+      >
+        <View style={{ paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.colors.background, backgroundColor: bg, marginBottom: theme.spacing.sm, borderRadius: 8 }}>
           <Text style={{ ...theme.typography.h2, color: theme.colors.textLight }}>{item.title}</Text>
           <Text style={{ ...theme.typography.body, color: theme.colors.textLight }}>{item.date}</Text>
         </View>
@@ -61,20 +69,20 @@ export default function EventsScreen() {
   }
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: theme.spacing.xl }}>
       <FlatList
         data={upcoming}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => renderEventItem(item, index)}
-        contentContainerStyle={{ paddingBottom: 8 }}
+        contentContainerStyle={{ paddingBottom: theme.spacing.sm }}
       />
 
-      <Text style={{ ...theme.typography.h2, marginTop: 16, marginBottom: 8 }}>Past events</Text>
+      <Text style={{ ...theme.typography.h2, marginTop: theme.spacing.md, marginBottom: theme.spacing.sm }}>Past events</Text>
       <FlatList
         data={past}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={{ padding: 8 }}>
+          <View style={{ padding: theme.spacing.sm }}>
             <Text style={{ ...theme.typography.h2, color: theme.colors.text }}>{item.title}</Text>
             <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>{item.date}</Text>
           </View>

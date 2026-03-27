@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 const colors = {
   primary: '#e62c2c',
   accent: '#ffb400',
-  canvas: '#f8f8f8',
+  canvas: '#f8f9fa',
   card: '#131f2b',
   surface: '#404350',
   surfaceAlt1: '#194f88',
@@ -22,7 +22,8 @@ const spacing = {
   sm: 8,
   md: 16,
   lg: 24,
-  xl: 32
+  xl: 32,
+  xxl: 50,
 };
 
 const typography = {

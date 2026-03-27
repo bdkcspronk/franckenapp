@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ActivityIndicator, Alert } from 'react-native';
-import { useTheme } from '../theme';
+import { useTheme } from '../../theme';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useAuth } from '../contexts/AuthContext';
-import { signUpForEvent, cancelSignUp, getMemberSignups } from '../services/api';
+import { useAuth } from '../../contexts/AuthContext';
+import { signUpForEvent, cancelSignUp, getMemberSignups } from '../../services/api';
 
 export default function EventDetailScreen() {
   const route = useRoute();
@@ -68,9 +68,9 @@ export default function EventDetailScreen() {
   if (!event) return null;
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: theme.spacing.xxl }}>
       <Text style={{ ...theme.typography.h1, color: theme.colors.text }}>{event.title}</Text>
-      <Text style={{ ...theme.typography.body, color: theme.colors.muted, marginBottom: 12 }}>{event.date}</Text>
+      <Text style={{ ...theme.typography.body, color: theme.colors.muted, marginBottom: theme.spacing.sm }}>{event.date}</Text>
       <Text style={{ ...theme.typography.body, color: theme.colors.text }}>Event details and description would be shown here.</Text>
       {loading ? (
         <ActivityIndicator color={theme.colors.primary} />

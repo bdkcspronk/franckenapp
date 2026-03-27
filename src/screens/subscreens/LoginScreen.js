@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
-import { useTheme } from '../theme';
-import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../../theme';
+import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
@@ -21,22 +21,22 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ ...theme.typography.h2, marginBottom: 12, color: theme.colors.text }}>Log in</Text>
+    <View style={{ flex: 1, padding: theme.spacing.lg }}>
+      <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm, color: theme.colors.text }}>Log in</Text>
       <TextInput
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
-        style={{ padding: 8, borderWidth: 1, marginBottom: 12, borderColor: theme.colors.muted }}
+        style={{ padding: theme.spacing.sm, borderWidth: 1, marginBottom: theme.spacing.sm, borderColor: theme.colors.muted }}
       />
       <TextInput
         placeholder="Password (not required for mock)"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ padding: 8, borderWidth: 1, marginBottom: 12, borderColor: theme.colors.muted }}
+        style={{ padding: theme.spacing.sm, borderWidth: 1, marginBottom: theme.spacing.sm, borderColor: theme.colors.muted }}
       />
       <Button color={theme.colors.primary} title="Log in" onPress={doLogin} />
     </View>
