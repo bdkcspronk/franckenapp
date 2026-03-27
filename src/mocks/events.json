@@ -1,0 +1,17 @@
+[
+  { "id": "1", "title": "Pub Quiz - Sjaarscie Activity", "date": "2026-03-19", "description": "Pub quiz activity organized by Sjaarscie." },
+  { "id": "2", "title": "Wetsus excursion (with Physics of Fluids)", "date": "2026-03-20", "description": "Excursion to Wetsus with Physics of Fluids." },
+  { "id": "3", "title": "FFL - Antonija Grubisic-Cabo - Gold as Sticky Tape: The KISS Method for 2D Materials & ARPES", "date": "2026-03-20", "description": "FFL lecture on 2D materials and ARPES." },
+  { "id": "4", "title": "AP activity: Boat Building Challenge", "date": "2026-03-23", "description": "Boat building challenge organized by AP." },
+  { "id": "5", "title": "Fotocie activity: Geoguessr", "date": "2026-03-25", "description": "Geoguessr activity by Fotocie." },
+  { "id": "6", "title": "Physics of Fluids practice session", "date": "2026-03-27", "description": "Practice session for the Physics of Fluids course." },
+  { "id": "7", "title": "FFL: Polymer Physics - Andrea Giuntoli", "date": "2026-03-27", "description": "Lecture on polymer physics by Andrea Giuntoli." },
+  { "id": "8", "title": "Fundamentals of Electronics recap session", "date": "2026-03-30", "description": "Recap session for Fundamentals of Electronics." },
+  { "id": "9", "title": "Board charity auction", "date": "2026-03-30", "description": "Charity auction organized by the board." },
+  { "id": "10", "title": "Entrepreneurship workshop Innokite", "date": "2026-03-31", "description": "Workshop on entrepreneurship with Innokite." },
+  { "id": "11", "title": "Fundamentals of Electronics practice session", "date": "2026-04-02", "description": "Practical session for the Fundamentals of Electronics." },
+  { "id": "12", "title": "Electricity and Magnetism practice session", "date": "2026-04-02", "description": "Practice session for Electricity and Magnetism." },
+  { "id": "13", "title": "From Atoms to Solids practice session", "date": "2026-04-02", "description": "Practice session for From Atoms to Solids." },
+  { "id": "14", "title": "Buixie", "date": "2026-04-11", "description": "Buixie festival event." },
+  { "id": "15", "title": "Candidate board announcement", "date": "2026-04-21", "description": "Announcement of candidate board members." }
+]
