@@ -25,6 +25,20 @@ export async function topUp(memberId, amount) {
   throw new Error('Not implemented: topUp (firebaseApi)');
 }
 
+// --- Book marketplace (not implemented for firebase) ---
+export async function getAvailableBooks() {
+  throw new Error('Not implemented: getAvailableBooks (firebaseApi)');
+}
+export async function getMyBooks(memberId) {
+  throw new Error('Not implemented: getMyBooks (firebaseApi)');
+}
+export async function createBookListing(memberId, payload) {
+  throw new Error('Not implemented: createBookListing (firebaseApi)');
+}
+export async function buyBook(bookId, buyerId) {
+  throw new Error('Not implemented: buyBook (firebaseApi)');
+}
+
 export default {
   fetchEvents,
   fetchNews,
@@ -34,4 +48,5 @@ export default {
   getMemberSignups,
   cancelSignUp,
   topUp
+  , getAvailableBooks, getMyBooks, createBookListing, buyBook
 };

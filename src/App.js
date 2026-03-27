@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavigationContainer, DefaultTheme as NavDefaultTheme } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Text } from 'react-native';
+import { Text, View, Image, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AuthProvider } from './contexts/AuthContext';
 import RootNavigator from './navigation';
-import { ThemeProvider, useTheme } from './theme';
+import { ThemeProvider, Theme, useTheme } from './theme';
 
 export default function App() {
   // load custom fonts from assets/fonts (MADE TOMMY family)
@@ -25,27 +25,41 @@ export default function App() {
     Text.defaultProps.style = { ...(Text.defaultProps.style || {}), fontFamily: 'MadeTommy-Regular' };
   }
 
-  if (!fontsLoaded) return null; // or show a loader
-
   return (
     <AuthProvider>
       <ThemeProvider>
-        <ThemedNavigation />
+        {fontsLoaded ? <ThemedNavigation /> : <InitialPlaceholder />}
       </ThemeProvider>
     </AuthProvider>
   );
 }
 
+function InitialPlaceholder() {
+  return (
+    <>
+      <StatusBar style="light" backgroundColor={Theme.colors.card} />
+      <View style={[styles.container, { backgroundColor: Theme.colors.card }]}>
+        <Image source={require('../assets/splash/splash_2048.png')} style={styles.logo} resizeMode="contain" />
+      </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  logo: { width: 280, height: 280 },
+});
+
 function ThemedNavigation() {
   const theme = useTheme();
   const navTheme = {
     ...NavDefaultTheme,
-    colors: {
+      colors: {
       ...NavDefaultTheme.colors,
       background: theme.colors.canvas,
       card: theme.colors.card,
       text: theme.colors.text,
-      primary: theme.colors.primary
+      primary: theme.colors.activate
     }
   };
 

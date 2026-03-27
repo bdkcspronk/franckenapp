@@ -11,5 +11,17 @@
     "plugins": [
       "expo-font"
     ]
+    ,
+    "icon": "./assets/icon/icon_1024.png",
+    "splash": {
+      "image": "./assets/splash/splash_2048.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#131f2b"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#131f2b",
+      "translucent": false
+    }
   }
 }

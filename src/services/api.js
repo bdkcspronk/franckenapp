@@ -16,5 +16,9 @@ export const getMemberSignups = (...args) => impl.getMemberSignups(...args);
 export const cancelSignUp = (...args) => impl.cancelSignUp(...args);
 export const topUp = (...args) => impl.topUp(...args);
 export const updateMember = (...args) => impl.updateMember && impl.updateMember(...args);
+export const getAvailableBooks = (...args) => impl.getAvailableBooks && impl.getAvailableBooks(...args);
+export const getMyBooks = (...args) => impl.getMyBooks && impl.getMyBooks(...args);
+export const createBookListing = (...args) => impl.createBookListing && impl.createBookListing(...args);
+export const buyBook = (...args) => impl.buyBook && impl.buyBook(...args);
 
 export default impl;

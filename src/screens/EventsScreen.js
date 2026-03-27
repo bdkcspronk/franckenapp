@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, useWindowDimensions } from 'react-native';
 import { useTheme } from '../theme';
 import { useNavigation } from '@react-navigation/native';
 import { fetchEvents } from '../services/api';
@@ -31,6 +31,9 @@ export default function EventsScreen() {
   const [upcoming, setUpcoming] = useState([]);
   const [past, setPast] = useState([]);
 
+  const { height: windowH } = useWindowDimensions();
+  const upcomingH = Math.min(580, windowH * 0.7);
+
   useEffect(() => {
     if (loading) return;
     const today = new Date();
@@ -44,7 +47,7 @@ export default function EventsScreen() {
 
   if (loading) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator color={theme.colors.primary} />
+      <ActivityIndicator color={theme.colors.activate} />
     </View>
   );
 
@@ -60,7 +63,7 @@ export default function EventsScreen() {
           targetNav.navigate('Event Details', { event: passedEvent });
         }}
       >
-        <View style={{ paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.colors.background, backgroundColor: bg, marginBottom: theme.spacing.sm, borderRadius: 8 }}>
+        <View style={{ paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.colors.background, backgroundColor: bg, marginBottom: theme.spacing.md, borderRadius: 8 }}>
           <Text style={{ ...theme.typography.h2, color: theme.colors.textLight }}>{item.title}</Text>
           <Text style={{ ...theme.typography.body, color: theme.colors.textLight }}>{item.date}</Text>
         </View>
@@ -69,21 +72,24 @@ export default function EventsScreen() {
   }
 
   return (
-    <View style={{ flex: 1, padding: theme.spacing.xl }}>
-      <FlatList
-        data={upcoming}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => renderEventItem(item, index)}
-        contentContainerStyle={{ paddingBottom: theme.spacing.sm }}
-      />
+    <View style={{ flex: 1, padding: theme.spacing.xl, paddingBottom: 0 }}>
+      <View style={{ height: upcomingH }}>
+        <FlatList
+          data={upcoming}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => renderEventItem(item, index)}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: theme.spacing.sm }}
+        />
+      </View>
 
-      <Text style={{ ...theme.typography.h2, marginTop: theme.spacing.md, marginBottom: theme.spacing.sm }}>Past events</Text>
+      <Text style={{ ...theme.typography.h2, color: theme.colors.muted, marginTop: theme.spacing.md, marginBottom: theme.spacing.sm }}>Past events</Text>
       <FlatList
         data={past}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={{ padding: theme.spacing.sm }}>
-            <Text style={{ ...theme.typography.h2, color: theme.colors.text }}>{item.title}</Text>
+            <Text style={{ ...theme.typography.h3, color: theme.colors.text }}>{item.title}</Text>
             <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>{item.date}</Text>
           </View>
         )}
