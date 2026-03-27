@@ -1,3 +1,4 @@
+// Purpose: Show the association magazine and provide a download link for the latest issue.
 import React from 'react';
 import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import { useTheme } from '../../../theme';

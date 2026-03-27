@@ -1,3 +1,4 @@
+// Purpose: Provide authentication state and helper functions to the app.
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import appConfig from '../config/appConfig';
 import * as api from '../services/api';

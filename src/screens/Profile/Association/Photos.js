@@ -1,3 +1,4 @@
+// Purpose: Display event photo albums and image placeholders.
 import React from 'react';
 import { View, Text, ScrollView, Image, Dimensions } from 'react-native';
 import { useTheme } from '../../../theme';

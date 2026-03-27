@@ -1,3 +1,4 @@
+// Purpose: Mock API providing in-memory data for development and testing.
 import events from '../mocks/events.json';
 import news from '../mocks/news.json';
 import members from '../mocks/members.json';

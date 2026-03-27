@@ -1,3 +1,4 @@
+// Purpose: Display current board members and contact information.
 import React from 'react';
 import { View, Text, FlatList, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

@@ -1,3 +1,4 @@
+// Purpose: Display full event details and allow sign-up/cancel actions.
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, Alert, Linking, Platform, ScrollView } from 'react-native';
 import { useTheme } from '../../theme';

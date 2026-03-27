@@ -1,3 +1,4 @@
+// Purpose: Show the user's wallet balance and QR code for payments.
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '../../../theme';

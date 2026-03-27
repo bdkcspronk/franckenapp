@@ -1,3 +1,4 @@
+// Purpose: Reusable button component with app-specific styling and variants.
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, View } from 'react-native';
 import { useTheme } from '../theme';

@@ -1,3 +1,4 @@
+// Purpose: Committee overview — displays committee tiles and navigation to details.
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useTheme } from '../../../../../theme';

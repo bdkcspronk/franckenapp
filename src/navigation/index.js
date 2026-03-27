@@ -1,3 +1,4 @@
+// Purpose: Configure app navigation (tabs and stacks) and route mappings.
 import React from 'react';
 import { Text } from 'react-native';
 import { useTheme } from '../theme';
@@ -18,6 +19,9 @@ import PhotosScreen from '../screens/Profile/Association/Photos';
 import BoardScreen from '../screens/Profile/Association/Board';
 import PrivacyScreen from '../screens/Profile/Info/Privacy';
 import ConductScreen from '../screens/Profile/Info/Conduct';
+import MentalHealthScreen from '../screens/Profile/Wellbeing/MentalHealth';
+import SustainabilityScreen from '../screens/Profile/Wellbeing/Sustainability';
+import InternationalsScreen from '../screens/Profile/Wellbeing/Internationals';
 import BookSalesScreen from '../screens/Profile/Finances/BookSales';
 import SellBookScreen from '../screens/Profile/Finances/SellBook';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -133,6 +137,9 @@ export default function RootNavigator() {
       <Stack.Screen name="Committee" component={CommitteeScreen} options={({ route }) => ({ title: route.params?.name || 'Committee' })} />
       <Stack.Screen name="Photos" component={PhotosScreen} options={{ title: 'Photos' }} />
       <Stack.Screen name="Board" component={BoardScreen} options={{ title: 'Board' }} />
+      <Stack.Screen name="MentalHealth" component={MentalHealthScreen} options={{ title: 'Mental Health' }} />
+      <Stack.Screen name="Sustainability" component={SustainabilityScreen} options={{ title: 'Sustainability' }} />
+      <Stack.Screen name="Internationals" component={InternationalsScreen} options={{ title: 'Internationals' }} />
       <Stack.Screen name="Privacy" component={PrivacyScreen} options={{ title: 'Privacy Policy' }} />
       <Stack.Screen name="Conduct" component={ConductScreen} options={{ title: 'Code of Conduct' }} />
       <Stack.Screen name="Books" component={BookSalesScreen} options={{ title: 'Book Sales' }} />
