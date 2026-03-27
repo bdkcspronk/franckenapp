@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text } from 'react-native';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { useFocusEffect } from '@react-navigation/native';
-import { getMemberSignups, cancelSignUp } from '../services/api';
-import ProfileSignups from '../components/ProfileSignups';
-import { useTheme } from '../theme';
+import { getMemberSignups, cancelSignUp } from '../../services/api';
+import ProfileSignups from '../../components/ProfileSignups';
+import { useTheme } from '../../theme';
 
 export default function SignupsScreen() {
   const { user } = useAuth();
@@ -43,14 +43,16 @@ export default function SignupsScreen() {
   }
 
   if (!user) return (
-    <View style={{ flex:1, padding:16 }}>
-      <Text style={theme.typography.body}>Please log in to view signups.</Text>
+    <View style={{ flex:1, padding: theme.spacing.lg }}>
+      <Text style={{ ...theme.typography.body, paddingHorizontal: theme.spacing.xxl }}>Please log in to view signups.</Text>
     </View>
   );
 
   return (
-    <View style={{ flex:1, padding:16 }}>
-      <ProfileSignups signups={signups} loading={loading} onCancel={handleCancel} />
+    <View style={{ flex:1, padding: theme.spacing.lg }}>
+      <View style={{ paddingHorizontal: theme.spacing.xxl }}>
+        <ProfileSignups signups={signups} loading={loading} onCancel={handleCancel} />
+      </View>
     </View>
   );
 }

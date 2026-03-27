@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import appConfig from '../config/appConfig';
+import * as api from '../services/api';
 
 let firebaseInitialized = false;
 let auth = null;
@@ -12,9 +13,20 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (appConfig.useMock) {
-      // Provide a default mock user for fast local testing.
-      // Keep this lightweight so Expo Go doesn't require Firebase config.
-      setUser({ uid: 'u1', email: 'alice@example.com', displayName: 'Alice' });
+      // Load default mock user from the single mock DB file to avoid duplication.
+      try {
+        const members = require('../mocks/members.json');
+        const defaultMember = Array.isArray(members) && (members.find((m) => m.email === 'alice@example.com') || members[0]);
+        if (defaultMember) {
+          // keep all fields from the mock member and ensure `uid` is available (code expects `user.uid`)
+          setUser({ ...defaultMember, uid: defaultMember.id || defaultMember.uid || defaultMember.email || 'u1' });
+        } else {
+          setUser({ uid: 'u1', email: 'alice@example.com', displayName: 'Alice Wonder' });
+        }
+      } catch (e) {
+        // fallback if loading fails
+        setUser({ uid: 'u1', email: 'alice@example.com', displayName: 'Alice Wonder' });
+      }
       return;
     }
 
@@ -49,10 +61,10 @@ export function AuthProvider({ children }) {
   async function signIn(email, password) {
     if (appConfig.useMock) {
       try {
-        const { default: api } = await import('../services/api');
         const m = await api.getMember(email);
         if (m) {
-          setUser({ uid: m.id, email: m.email, displayName: m.displayName });
+          // keep full member fields and ensure uid exists
+          setUser({ ...m, uid: m.id || m.uid || m.email });
           return { ok: true, user: m };
         }
         return { ok: false, message: 'User not found' };
@@ -83,7 +95,46 @@ export function AuthProvider({ children }) {
     }
   }
 
-  return <AuthContext.Provider value={{ user, signOut, signIn }}>{children}</AuthContext.Provider>;
+  async function updateProfile(updates) {
+    // Prevent clients from changing immutable fields like studentNumber
+    const safeUpdates = { ...updates };
+    if (safeUpdates.hasOwnProperty('studentNumber')) delete safeUpdates.studentNumber;
+
+    if (appConfig.useMock) {
+      try {
+        const idOrEmail = (user && (user.uid || user.email));
+        if (!idOrEmail) return { ok: false, message: 'No authenticated user' };
+        const res = await api.updateMember(idOrEmail, safeUpdates);
+        if (res && res.ok && res.member) {
+          setUser((prev) => ({ ...prev, ...res.member }));
+          return { ok: true, user: res.member };
+        }
+        // fallback if implementation returns member directly
+        if (res && res.member) {
+          setUser((prev) => ({ ...prev, ...res.member }));
+          return { ok: true, user: res.member };
+        }
+        return { ok: false, message: res && res.message ? res.message : 'Update failed' };
+      } catch (e) {
+        return { ok: false, message: e.message };
+      }
+    }
+
+    try {
+      const { updateProfile } = await import('firebase/auth');
+      if (auth && auth.currentUser) {
+        // firebase updateProfile supports only displayName and photoURL; pass safeUpdates to be cautious
+        await updateProfile(auth.currentUser, safeUpdates);
+        setUser(auth.currentUser);
+        return { ok: true, user: auth.currentUser };
+      }
+      return { ok: false, message: 'No firebase user' };
+    } catch (e) {
+      return { ok: false, message: e.message };
+    }
+  }
+
+  return <AuthContext.Provider value={{ user, signOut, signIn, updateProfile }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

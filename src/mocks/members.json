@@ -1,4 +1,26 @@
 [
-  { "id": "1101", "email": "alice@example.com", "displayName": "Alice Wonder", "balance": 10.0 },
-  { "id": "1102", "email": "bob@example.com", "displayName": "Bob Builder", "balance": 2.5 }
+  {
+    "id": "1101",
+    "email": "alice@example.com",
+    "displayName": "Alice Wonder",
+    "balance": 5,
+    "studentNumber": "s-6521001",
+    "address": "Bakerstraat 12, 9712 AB Groningen, Netherlands",
+    "study": { "name": "Applied Physics", "startYear": 2027 },
+    "birthday": "2009-04-15",
+    "phone": "+31 6 12345678",
+    "iban": "NL91ABNA0417164300"
+  },
+  {
+    "id": "1102",
+    "email": "bob@example.com",
+    "displayName": "Bob Builder",
+    "balance": 2.5,
+    "studentNumber": "s-7819002",
+    "address": "Construction Ave 5, 3011 BC Rotterdam, Netherlands",
+    "study": { "name": "Applied Physics", "startYear": 2023 },
+    "birthday": "2005-09-30",
+    "phone": "+31 6 87654321",
+    "iban": "NL39RABO0300065264"
+  }
 ]

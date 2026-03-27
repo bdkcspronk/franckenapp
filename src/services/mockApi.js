@@ -62,6 +62,18 @@ export async function topUp(memberId, amount) {
   return { ok: true, balance: m.balance };
 }
 
+export async function updateMember(memberId, changes) {
+  const idx = state.members.findIndex((x) => x.id === memberId || x.email === memberId);
+  if (idx === -1) return { ok: false, message: 'Member not found' };
+  const m = state.members[idx];
+  // Do not allow changing immutable fields like `studentNumber` from the client.
+  const safe = { ...changes };
+  if (safe.hasOwnProperty('studentNumber')) delete safe.studentNumber;
+  // apply remaining changes shallowly
+  Object.assign(m, safe);
+  return new Promise((res) => setTimeout(() => res({ ok: true, member: m }), 120));
+}
+
 export default {
   fetchEvents,
   fetchNews,
@@ -71,4 +83,5 @@ export default {
   getMemberSignups,
   cancelSignUp,
   topUp
+  , updateMember
 };

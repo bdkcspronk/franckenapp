@@ -15,5 +15,6 @@ export const getWalletBalance = (...args) => impl.getWalletBalance(...args);
 export const getMemberSignups = (...args) => impl.getMemberSignups(...args);
 export const cancelSignUp = (...args) => impl.cancelSignUp(...args);
 export const topUp = (...args) => impl.topUp(...args);
+export const updateMember = (...args) => impl.updateMember && impl.updateMember(...args);
 
 export default impl;

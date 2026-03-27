@@ -3,20 +3,18 @@ import { Text } from 'react-native';
 import { useTheme } from '../theme';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EventsScreen from '../screens/EventsScreen';
-import EventDetailScreen from '../screens/EventDetailScreen';
+import EventDetailScreen from '../screens/subscreens/EventDetailScreen';
 import NewsScreen from '../screens/NewsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import WalletScreen from '../screens/WalletScreen';
-import LoginScreen from '../screens/LoginScreen';
-import PersonalDetailsScreen from '../screens/PersonalDetailsScreen';
-import MemberCardScreen from '../screens/MemberCardScreen';
-import SignupsScreen from '../screens/SignupsScreen';
-import PastPurchasesScreen from '../screens/PastPurchasesScreen';
-import FranckenVrijScreen from '../screens/FranckenVrijScreen';
-import CommitteesScreen from '../screens/CommitteesScreen';
-import PhotosScreen from '../screens/PhotosScreen';
-import BoardScreen from '../screens/BoardScreen';
-import PrivacyScreen from '../screens/PrivacyScreen';
+import WalletScreen from '../screens/subscreens/WalletScreen';
+import LoginScreen from '../screens/subscreens/LoginScreen';
+import PersonalDetailsScreen from '../screens/subscreens/PersonalDetailsScreen';
+import SignupsScreen from '../screens/subscreens/SignupsScreen';
+import FranckenVrijScreen from '../screens/subscreens/FranckenVrijScreen';
+import CommitteesScreen from '../screens/subscreens/CommitteesScreen';
+import PhotosScreen from '../screens/subscreens/PhotosScreen';
+import BoardScreen from '../screens/subscreens/BoardScreen';
+import PrivacyScreen from '../screens/subscreens/PrivacyScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../contexts/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -114,9 +112,8 @@ export default function RootNavigator() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="PersonalDetails" component={PersonalDetailsScreen} options={{ title: 'Personal Details' }} />
-      <Stack.Screen name="MemberCard" component={MemberCardScreen} options={{ title: 'Member Card' }} />
       <Stack.Screen name="Signups" component={SignupsScreen} options={{ title: 'My Signups' }} />
-      <Stack.Screen name="Purchases" component={PastPurchasesScreen} options={{ title: 'Past Purchases' }} />
+      
       <Stack.Screen name="FranckenVrij" component={FranckenVrijScreen} options={{ title: 'Francken Vrij' }} />
       <Stack.Screen name="Committees" component={CommitteesScreen} options={{ title: 'Committees' }} />
       <Stack.Screen name="Photos" component={PhotosScreen} options={{ title: 'Photos' }} />
