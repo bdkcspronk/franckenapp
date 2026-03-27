@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme as NavDefaultTheme } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { AuthProvider } from './contexts/AuthContext';
 import RootNavigator from './navigation';
 import { ThemeProvider, useTheme } from './theme';
@@ -49,8 +50,11 @@ function ThemedNavigation() {
   };
 
   return (
-    <NavigationContainer theme={navTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <>
+      <StatusBar style="light" backgroundColor={theme.colors.card} />
+      <NavigationContainer theme={navTheme}>
+        <RootNavigator />
+      </NavigationContainer>
+    </>
   );
 }
