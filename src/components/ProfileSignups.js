@@ -1,3 +1,4 @@
+// Purpose: Component that lists a member's signups and allows cancellations.
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { useTheme } from '../theme';

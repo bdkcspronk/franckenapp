@@ -1,3 +1,4 @@
+// Purpose: Authentication screen for member login.
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
 import { useTheme } from '../../../theme';

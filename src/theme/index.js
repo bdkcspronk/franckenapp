@@ -31,10 +31,17 @@ const spacing = {
 
 const typography = {
   h1: { fontFamily: 'MadeTommy-Black', fontSize: 24, fontWeight: '700' },
+  
   h2: { fontFamily: 'MadeTommy-Bold', fontSize: 18, fontWeight: '600' },
+
   h3: { fontFamily: 'MadeTommy-Regular', fontSize: 16, fontWeight: '600' },
+
   body: { fontFamily: 'MadeTommy-Regular', fontSize: 14, fontWeight: '400' },
-  label: { fontFamily: 'MadeTommy-Medium', fontSize: 12, fontWeight: '500' }
+  italic: { fontFamily: 'MadeTommy-Italic', fontSize: 14, fontWeight: '400' },
+  bold: { fontFamily: 'MadeTommy-Bold', fontSize: 14, fontWeight: '600' },
+
+  label: { fontFamily: 'MadeTommy-Medium', fontSize: 12, fontWeight: '500' },
+  
 };
 
 // base theme object exported at bottom as default

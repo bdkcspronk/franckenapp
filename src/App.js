@@ -1,3 +1,4 @@
+// Purpose: App entry component — sets up providers and navigation.
 import React from 'react';
 import { NavigationContainer, DefaultTheme as NavDefaultTheme } from '@react-navigation/native';
 import { useFonts } from 'expo-font';

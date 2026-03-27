@@ -1,3 +1,4 @@
+// Purpose: Show detailed information about a single committee and its members.
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useTheme } from '../../../../../theme';

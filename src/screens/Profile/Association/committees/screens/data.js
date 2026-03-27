@@ -1,4 +1,5 @@
 // Hardcoded committee data (ids are slugs)
+// Purpose: Provide static committee metadata used by committee screens.
 export default [
   { id: 'acquisicie', name: 'Acquisicie', description: 'Handles acquisitions and materials.', members: [] },
   { id: 'advisory-board', name: 'Advisory Board', description: 'Advises the board and association.', members: [] },

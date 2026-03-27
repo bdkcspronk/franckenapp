@@ -1,3 +1,4 @@
+// Purpose: Allow users to list a book for sale and submit sale details.
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
 import { useTheme } from '../../../theme';

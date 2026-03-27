@@ -1,3 +1,4 @@
+// Purpose: List available book sales and let users purchase books.
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Alert } from 'react-native';
 import { useTheme } from '../../../theme';

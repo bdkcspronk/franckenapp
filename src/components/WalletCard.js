@@ -1,3 +1,4 @@
+// Purpose: UI card showing wallet balance and quick wallet actions.
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from '../theme';

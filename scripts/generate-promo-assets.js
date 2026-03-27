@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// Purpose: CLI to build the promo assets mapping used by the app.
 const fs = require('fs');
 const path = require('path');
 

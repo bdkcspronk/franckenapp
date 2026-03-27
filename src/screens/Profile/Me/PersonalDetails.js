@@ -1,3 +1,4 @@
+// Purpose: Show and edit the user's personal details and contact information.
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useAuth } from '../../../contexts/AuthContext';

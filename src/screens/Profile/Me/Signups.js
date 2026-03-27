@@ -1,3 +1,4 @@
+// Purpose: List and manage the user's event sign-ups.
 import React, { useState, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import { useAuth } from '../../../contexts/AuthContext';

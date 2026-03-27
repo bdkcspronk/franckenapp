@@ -1,3 +1,4 @@
+// Purpose: Header component for profile screens showing user info and sign-out.
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from '../theme';

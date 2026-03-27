@@ -1,3 +1,4 @@
+// Purpose: Export the selected API implementation (mock or firebase) for the app.
 import appConfig from '../config/appConfig';
 
 let impl = null;
