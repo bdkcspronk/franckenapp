@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, Button } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from '../theme';
+import AppButton from './AppButton';
 
 export default function WalletCard({ balance, loading, onTopUp, onNavigateToWallet }) {
   const theme = useTheme();
@@ -18,12 +19,12 @@ export default function WalletCard({ balance, loading, onTopUp, onNavigateToWall
     <View style={{ marginTop: 16 }}>
       <Text style={{ ...theme.typography.h2, color: theme.colors.accent }}>Wallet</Text>
       {loading ? (
-        <ActivityIndicator color={theme.colors.primary} />
+        <ActivityIndicator color={theme.colors.activate} />
       ) : (
         <Text style={{ ...theme.typography.body, color: theme.colors.text }}>Balance: {formatBalance(balance)}</Text>
       )}
       <View style={{ marginTop: 8 }}>
-        <Button color={theme.colors.primary} title="Top up" onPress={onNavigateToWallet || onTopUp} />
+        <AppButton title="Top up" variant="activate" onPress={onNavigateToWallet || onTopUp} />
       </View>
     </View>
   );

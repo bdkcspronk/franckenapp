@@ -26,21 +26,30 @@ export default function NewsScreen() {
   }, []);
   if (loading) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator color={theme.colors.primary} />
+      <ActivityIndicator color={theme.colors.activate} />
     </View>
   );
+
+  const sorted = [...news].sort((a, b) => {
+    const ai = parseInt(a.id, 10);
+    const bi = parseInt(b.id, 10);
+    const aIsNum = !Number.isNaN(ai);
+    const bIsNum = !Number.isNaN(bi);
+    if (aIsNum && bIsNum) return bi - ai; // numeric descending
+    return String(b.id).localeCompare(String(a.id));
+  });
 
   return (
     <View style={{ flex: 1, padding: theme.spacing.xl }}>
       <FlatList
-        data={news}
+        data={sorted}
         keyExtractor={(i) => i.id}
         renderItem={({ item, index }) => {
           const bg = index % 2 === 0 ? theme.colors.surfaceAlt1 : theme.colors.surfaceAlt2;
           return (
             <View style={{ paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.colors.background, backgroundColor: bg, marginBottom: theme.spacing.sm, borderRadius: 8 }}>
-              <Text style={{ ...theme.typography.h2, color: theme.colors.textLight }}>{item.title}</Text>
-              <Text style={{ ...theme.typography.body, color: theme.colors.textLight }}>{item.body}</Text>
+              <Text style={{ ...theme.typography.h2, color: theme.colors.textLight, padding: theme.spacing.md }}>{item.title}</Text>
+              <Text style={{ ...theme.typography.body, color: theme.colors.textLight, padding: theme.spacing.md }}>{item.body}</Text>
             </View>
           );
         }}

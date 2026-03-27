@@ -4,13 +4,15 @@ import { View, Text, Platform, StatusBar as RNStatusBar } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const colors = {
-  primary: '#e62c2c',
-  accent: '#ffb400',
+  primary: '#139119',
+  activate: '#28e732',
+  deactivate:'#e02424',
+  accent: '#c70909',
   canvas: '#f8f9fa',
-  card: '#131f2b',
-  surface: '#404350',
-  surfaceAlt1: '#194f88',
-  surfaceAlt2: '#b42f2f',
+  card: '#1d2f41',
+  surface: '#f2e8f3',
+  surfaceAlt1: '#618bbb',
+  surfaceAlt2: '#ca6565',
   text: '#222222',
   textDark: '#222222',
   textLight: '#ffffff',
@@ -30,6 +32,7 @@ const spacing = {
 const typography = {
   h1: { fontFamily: 'MadeTommy-Black', fontSize: 24, fontWeight: '700' },
   h2: { fontFamily: 'MadeTommy-Bold', fontSize: 18, fontWeight: '600' },
+  h3: { fontFamily: 'MadeTommy-Regular', fontSize: 16, fontWeight: '600' },
   body: { fontFamily: 'MadeTommy-Regular', fontSize: 14, fontWeight: '400' },
   label: { fontFamily: 'MadeTommy-Medium', fontSize: 12, fontWeight: '500' }
 };
@@ -52,11 +55,8 @@ export function ThemeProvider({ children }) {
   function ThemeInterior() {
     const insets = useSafeAreaInsets();
     return (
-      <View style={{ flex: 1 }}>
-        {insets.top ? (
-          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: insets.top, backgroundColor: Theme.colors.card }} />
-        ) : null}
-        <View style={{ flex: 1, backgroundColor: Theme.colors.canvas }}>{children}</View>
+      <View style={{ flex: 1, backgroundColor: Theme.colors.card }}>
+        <View style={{ flex: 1, backgroundColor: Theme.colors.canvas, marginTop: Theme.spacing.xl, marginBottom: Theme.spacing.sm }}>{children}</View>
       </View>
     );
   }

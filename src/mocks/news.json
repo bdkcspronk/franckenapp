@@ -1,4 +1,7 @@
 [
-    { "id": "1", "title": "Ticket release", "body": "Tickets for the Elemental Gala go on sale next week." },
-    { "id": "2", "title": "Welcome new members", "body": "We welcome the new cohort of 2026!" }
+    { "id": "1", "title": "Welcome new member",
+    "body": "Welcome to the Study Association T.F.V. 'Professor Francken'!\n\nWe recommend going to your profile and updating your information. Also, read our Code of Conduct to get familiar with the association and our customs." },
+    { "id": "2", "title": "Bi-weekly update", "body": "Here is a summary of the latest updates from the association." },
+    { "id": "3", "title": "Francken Vrij", "body": "Read the latest issue of Francken Vrij! The theme for this issue is 'Salt'. Read about the latest developments in the association." },
+    { "id": "4", "title": "Ticket release", "body": "Tickets for the Elemental Gala go on sale next week." }
 ]

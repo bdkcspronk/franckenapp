@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '../theme';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
@@ -24,52 +24,64 @@ export default function ProfileScreen() {
       title: 'Finances',
       items: [
         { key: 'wallet', label: 'Wallet', route: 'Wallet' },
+        { key: 'book-sale', label: 'Book Sales', route: 'Books' },
       ],
     },
     {
       title: 'Association',
       items: [
         { key: 'board', label: 'Board', route: 'Board' },
+        { key: 'committees', label: 'Committees', route: 'Committees' },
         { key: 'vrij', label: 'Francken Vrij', route: 'FranckenVrij' },
-        { key: 'privacy', label: 'Privacy', route: 'Privacy' },
         { key: 'photos', label: 'Photos', route: 'Photos' },
       ],
     },
+    {
+      title: 'Info',
+      items: [
+        { key: 'privacy', label: 'Privacy Policy', route: 'Privacy' },
+        { key: 'conduct', label: 'Code of Conduct', route: 'Conduct' },
+      ],
+    }
   ];
 
   return (
-    <View style={{ flex: 1, padding: theme.spacing.lg, backgroundColor: theme.colors.background }}>
-      <ProfileHeader user={user} onSignOut={signOut} onLogin={() => navigation.navigate('Login')} />
-      {user ? (
-        <View style={{ marginTop: theme.spacing.xl }}>
-          {sections.map((section) => (
-            <View key={section.title} style={{ marginBottom: theme.spacing.lg }}>
-              <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>{section.title}</Text>
-              <View style={{ backgroundColor: theme.colors.card, borderRadius: 8, overflow: 'hidden' }}>
-                {section.items.map((item, idx) => (
-                  <TouchableOpacity
-                    key={item.key}
-                    style={{ padding: theme.spacing.md, borderBottomWidth: idx < section.items.length - 1 ? 1 : 0, borderBottomColor: theme.colors.surface }}
-                    onPress={() => {
-                      const rootNav = navigation.getParent?.()?.getParent?.() || navigation.getParent?.() || navigation;
-                      rootNav.navigate(item.route);
-                    }}
-                  >
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text style={{ ...theme.typography.body, color: theme.colors.textLight }}>{item.label}</Text>
-                      <MaterialIcons name="chevron-right" size={22} color={theme.colors.textLight} />
-                    </View>
-                  </TouchableOpacity>
-                ))}
+    <View style={{ flex: 1, backgroundColor: theme.colors.canvas }}>
+      <View style={{ padding: theme.spacing.xl, paddingBottom: 0 }}>
+        <ProfileHeader user={user} onSignOut={signOut} onLogin={() => navigation.navigate('Login')} />
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: theme.spacing.xxl, paddingTop: 0 }}>
+        {user ? (
+          <View style={{ marginTop: 0 }}>
+            {sections.map((section) => (
+              <View key={section.title} style={{ marginBottom: theme.spacing.lg }}>
+                <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.sm }}>{section.title}</Text>
+                <View style={{ backgroundColor: theme.colors.card, borderRadius: 8, overflow: 'hidden' }}>
+                  {section.items.map((item, idx) => (
+                    <TouchableOpacity
+                      key={item.key}
+                      style={{ padding: theme.spacing.md, borderBottomWidth: idx < section.items.length - 1 ? 1 : 0, borderBottomColor: theme.colors.surface }}
+                      onPress={() => {
+                        const rootNav = navigation.getParent?.()?.getParent?.() || navigation.getParent?.() || navigation;
+                        rootNav.navigate(item.route);
+                      }}
+                    >
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ ...theme.typography.body, color: theme.colors.textLight }}>{item.label}</Text>
+                        <MaterialIcons name="chevron-right" size={22} color={theme.colors.textLight} />
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
-      ) : (
-        <View style={{ marginTop: theme.spacing.xl }}>
-          <Text style={theme.typography.body}>Please log in to view your profile.</Text>
-        </View>
-      )}
+            ))}
+          </View>
+        ) : (
+          <View style={{ marginTop: theme.spacing.xl }}>
+            <Text style={theme.typography.body}></Text>
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }

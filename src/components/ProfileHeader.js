@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { useTheme } from '../theme';
+import AppButton from './AppButton';
 
 export default function ProfileHeader({ user, onSignOut, onLogin }) {
   const theme = useTheme();
@@ -9,17 +10,17 @@ export default function ProfileHeader({ user, onSignOut, onLogin }) {
     return (
       <View style={{ paddingVertical: 12 }}>
         <Text style={{ marginBottom: 12, ...theme.typography.body, color: theme.colors.text }}>You are not logged in.</Text>
-        <Button color={theme.colors.primary} title="Log in" onPress={onLogin} />
+        <AppButton title="Log in" variant="activate" onPress={onLogin} />
       </View>
     );
   }
 
   return (
     <View style={{ paddingVertical: 12 }}>
-      <Text style={{ ...theme.typography.h2, color: theme.colors.text }}>{user.displayName || user.email}</Text>
-      <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>{user.email}</Text>
-      <View style={{ marginTop: 8 }}>
-        <Button color={theme.colors.danger} title="Sign out" onPress={onSignOut} />
+      <Text style={{ ...theme.typography.h2, color: theme.colors.text, textAlign: 'center' }}>{user.displayName || user.email}</Text>
+      <Text style={{ ...theme.typography.body, color: theme.colors.muted, textAlign: 'center' }}>{user.email}</Text>
+      <View style={{ marginTop: 12, width: '50%', alignSelf: 'center' }}>
+        <AppButton title="Sign out" variant="deactivate" onPress={onSignOut} style={{ width: '100%' }} />
       </View>
     </View>
   );

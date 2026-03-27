@@ -2,19 +2,24 @@ import React from 'react';
 import { Text } from 'react-native';
 import { useTheme } from '../theme';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EventsScreen from '../screens/EventsScreen';
-import EventDetailScreen from '../screens/subscreens/EventDetailScreen';
-import NewsScreen from '../screens/NewsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import WalletScreen from '../screens/subscreens/WalletScreen';
-import LoginScreen from '../screens/subscreens/LoginScreen';
-import PersonalDetailsScreen from '../screens/subscreens/PersonalDetailsScreen';
-import SignupsScreen from '../screens/subscreens/SignupsScreen';
-import FranckenVrijScreen from '../screens/subscreens/FranckenVrijScreen';
-import CommitteesScreen from '../screens/subscreens/CommitteesScreen';
-import PhotosScreen from '../screens/subscreens/PhotosScreen';
-import BoardScreen from '../screens/subscreens/BoardScreen';
-import PrivacyScreen from '../screens/subscreens/PrivacyScreen';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import EventsScreen from '../screens/Events/Screen';
+import EventDetailScreen from '../screens/Events/EventDetail';
+import NewsScreen from '../screens/News/Screen';
+import ProfileScreen from '../screens/Profile/Screen';
+import WalletScreen from '../screens/Profile/Finances/Wallet';
+import LoginScreen from '../screens/Profile/Me/Login';
+import PersonalDetailsScreen from '../screens/Profile/Me/PersonalDetails';
+import SignupsScreen from '../screens/Profile/Me/Signups';
+import FranckenVrijScreen from '../screens/Profile/Association/FranckenVrij';
+import CommitteesScreen from '../screens/Profile/Association/Committees';
+import CommitteeScreen from '../screens/Profile/Association/Committee';
+import PhotosScreen from '../screens/Profile/Association/Photos';
+import BoardScreen from '../screens/Profile/Association/Board';
+import PrivacyScreen from '../screens/Profile/Info/Privacy';
+import ConductScreen from '../screens/Profile/Info/Conduct';
+import BookSalesScreen from '../screens/Profile/Finances/BookSales';
+import SellBookScreen from '../screens/Profile/Finances/SellBook';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../contexts/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -24,19 +29,28 @@ const Tab = createBottomTabNavigator();
 
 function PublicTabs() {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const baseVertical = theme.spacing.sm;
   return (
-    <Tab.Navigator
+    <Tab.Navigator initialRouteName="Profile"
       screenOptions={{
         headerStyle: { backgroundColor: theme.colors.card },
         headerTintColor: theme.colors.textLight,
+        headerTitleAlign: 'center',
         contentStyle: { backgroundColor: theme.colors.canvas },
-        tabBarStyle: { backgroundColor: theme.colors.card },
-        tabBarActiveTintColor: theme.colors.primary,
+        tabBarStyle: {
+          backgroundColor: theme.colors.card,
+          paddingTop: baseVertical,
+          paddingBottom: baseVertical + (insets.bottom || 0),
+          height: 80 + (insets.bottom || 0),
+        },
+        tabBarActiveTintColor: theme.colors.textLight,
         tabBarInactiveTintColor: theme.colors.muted,
         tabBarLabelStyle: {
           fontFamily: theme.typography.label.fontFamily,
           fontSize: theme.typography.label.fontSize,
           fontWeight: theme.typography.label.fontWeight,
+          paddingBottom: 5,
         }
       }}
     >
@@ -46,7 +60,7 @@ function PublicTabs() {
         options={{
           tabBarIcon: ({ color, size }) => <MaterialIcons name="event" size={size} color={color} />,
           tabBarLabel: ({ color }) => <Text style={{ color, ...theme.typography.label }}>Events</Text>,
-          headerTitle: 'Upcoming Events',
+          headerTitle: 'Events',
           headerTitleStyle: {
             fontFamily: theme.typography.h1.fontFamily,
             fontSize: theme.typography.h1.fontSize,
@@ -98,6 +112,7 @@ export default function RootNavigator() {
       screenOptions={{
         headerStyle: { backgroundColor: theme.colors.card },
         headerTintColor: theme.colors.textLight,
+        headerTitleAlign: 'center',
         headerTitleStyle: {
           color: theme.colors.textLight,
           fontFamily: theme.typography.h1.fontFamily,
@@ -113,13 +128,16 @@ export default function RootNavigator() {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="PersonalDetails" component={PersonalDetailsScreen} options={{ title: 'Personal Details' }} />
       <Stack.Screen name="Signups" component={SignupsScreen} options={{ title: 'My Signups' }} />
-      
       <Stack.Screen name="FranckenVrij" component={FranckenVrijScreen} options={{ title: 'Francken Vrij' }} />
       <Stack.Screen name="Committees" component={CommitteesScreen} options={{ title: 'Committees' }} />
+      <Stack.Screen name="Committee" component={CommitteeScreen} options={({ route }) => ({ title: route.params?.name || 'Committee' })} />
       <Stack.Screen name="Photos" component={PhotosScreen} options={{ title: 'Photos' }} />
       <Stack.Screen name="Board" component={BoardScreen} options={{ title: 'Board' }} />
-      <Stack.Screen name="Privacy" component={PrivacyScreen} options={{ title: 'Privacy' }} />
+      <Stack.Screen name="Privacy" component={PrivacyScreen} options={{ title: 'Privacy Policy' }} />
+      <Stack.Screen name="Conduct" component={ConductScreen} options={{ title: 'Code of Conduct' }} />
+      <Stack.Screen name="Books" component={BookSalesScreen} options={{ title: 'Book Sales' }} />
+      <Stack.Screen name="SellBook" component={SellBookScreen} options={{ title: 'Sell a Book' }} />
       {user && <Stack.Screen name="Wallet" component={WalletScreen} />}
     </Stack.Navigator>
   );
-}
+} 
