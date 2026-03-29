@@ -16,9 +16,8 @@ export default function ProfileScreen() {
 		{
 			title: 'Me',
 			items: [
-				{ key: 'personal', label: 'Personal Details', route: 'PersonalDetails' },
-				{ key: 'committees', label: 'My Committees', route: 'Committees' },
-				{ key: 'signups', label: 'My Signups', route: 'Signups' },
+					{ key: 'personal', label: 'Personal Details', route: 'PersonalDetails' },
+					{ key: 'signups', label: 'My Signups', route: 'Signups' },
 			],
 		},
 		{

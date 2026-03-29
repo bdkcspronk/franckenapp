@@ -1,9 +1,9 @@
 // Purpose: Committee overview — displays committee tiles and navigation to details.
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
-import { useTheme } from '../../../../../theme';
+import { useTheme } from '../../../../theme';
 import { useNavigation } from '@react-navigation/native';
-import committees from './data';
+import committees from '../../../../mocks/committees.json';
 
 export default function CommitteesOverview() {
   const theme = useTheme();
@@ -16,8 +16,6 @@ export default function CommitteesOverview() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.canvas, padding: theme.spacing.lg }}>
-      <Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.md }}>Committees</Text>
-
       <FlatList
         data={committees}
         keyExtractor={(i) => i.id}

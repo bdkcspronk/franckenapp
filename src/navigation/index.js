@@ -4,17 +4,18 @@ import { Text } from 'react-native';
 import { useTheme } from '../theme';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import EventsScreen from '../screens/Events/Screen';
-import EventDetailScreen from '../screens/Events/EventDetail';
-import NewsScreen from '../screens/News/Screen';
+import FeedScreen from '../screens/Feed/Screen';
+import EventDetailScreen from '../screens/Feed/EventDetail';
 import ProfileScreen from '../screens/Profile/Screen';
+import MyCommitteesScreen from '../screens/MyCommittees/Screen';
 import WalletScreen from '../screens/Profile/Finances/Wallet';
+import CommitteeHomeScreen from '../screens/MyCommittees/CommitteeHome';
 import LoginScreen from '../screens/Profile/Me/Login';
 import PersonalDetailsScreen from '../screens/Profile/Me/PersonalDetails';
 import SignupsScreen from '../screens/Profile/Me/Signups';
 import FranckenVrijScreen from '../screens/Profile/Association/FranckenVrij';
-import CommitteesScreen from '../screens/Profile/Association/Committees';
-import CommitteeScreen from '../screens/Profile/Association/Committee';
+import CommitteesScreen from '../screens/Profile/Association/committees/Overview';
+import CommitteeScreen from '../screens/Profile/Association/committees/CommitteeScreen';
 import PhotosScreen from '../screens/Profile/Association/Photos';
 import BoardScreen from '../screens/Profile/Association/Board';
 import PrivacyScreen from '../screens/Profile/Info/Privacy';
@@ -59,12 +60,12 @@ function PublicTabs() {
       }}
     >
       <Tab.Screen
-        name="Events"
-        component={EventsScreen}
+        name="Feed"
+        component={FeedScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="event" size={size} color={color} />,
-          tabBarLabel: ({ color }) => <Text style={{ color, ...theme.typography.label }}>Events</Text>,
-          headerTitle: 'Events',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="article" size={size} color={color} />,
+          tabBarLabel: ({ color }) => <Text style={{ color, ...theme.typography.label }}>Feed</Text>,
+          headerTitle: 'News & Events',
           headerTitleStyle: {
             fontFamily: theme.typography.h1.fontFamily,
             fontSize: theme.typography.h1.fontSize,
@@ -74,12 +75,12 @@ function PublicTabs() {
         }}
       />
       <Tab.Screen
-        name="News"
-        component={NewsScreen}
+        name="MyCommittees"
+        component={MyCommitteesScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="article" size={size} color={color} />,
-          tabBarLabel: ({ color }) => <Text style={{ color, ...theme.typography.label }}>News</Text>,
-          headerTitle: 'Latest News',
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="groups" size={size} color={color} />,
+          tabBarLabel: ({ color }) => <Text style={{ color, ...theme.typography.label }}>My Committees</Text>,
+          headerTitle: 'My Committees',
           headerTitleStyle: {
             fontFamily: theme.typography.h1.fontFamily,
             fontSize: theme.typography.h1.fontSize,
@@ -130,11 +131,12 @@ export default function RootNavigator() {
       <Stack.Screen name="Event Details" component={EventDetailScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="PersonalDetails" component={PersonalDetailsScreen} options={{ title: 'Personal Details' }} />
+      <Stack.Screen name="PersonalDetails" component={PersonalDetailsScreen} options={{ title: 'My Details' }} />
       <Stack.Screen name="Signups" component={SignupsScreen} options={{ title: 'My Signups' }} />
       <Stack.Screen name="FranckenVrij" component={FranckenVrijScreen} options={{ title: 'Francken Vrij' }} />
       <Stack.Screen name="Committees" component={CommitteesScreen} options={{ title: 'Committees' }} />
       <Stack.Screen name="Committee" component={CommitteeScreen} options={({ route }) => ({ title: route.params?.name || 'Committee' })} />
+      <Stack.Screen name="CommitteeHome" component={CommitteeHomeScreen} options={({ route }) => ({ title: route.params?.name || 'Committee' })} />
       <Stack.Screen name="Photos" component={PhotosScreen} options={{ title: 'Photos' }} />
       <Stack.Screen name="Board" component={BoardScreen} options={{ title: 'Board' }} />
       <Stack.Screen name="MentalHealth" component={MentalHealthScreen} options={{ title: 'Mental Health' }} />
