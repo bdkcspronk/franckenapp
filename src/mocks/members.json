@@ -3,7 +3,7 @@
     "id": "1101",
     "email": "s.bradley.s@hotmail.com",
     "displayName": "Bradley Spronk",
-    "balance": 500515,
+    "balance": 1000,
     "studentNumber": "s-6521001",
     "address": "Jozef Israelsstraat 56A, 9718 GN Groningen, Netherlands",
     "study": { "name": "Physics", "startYear": 2015 },
@@ -15,12 +15,37 @@
     "id": "1102",
     "email": "bob@example.com",
     "displayName": "Bob Builder",
-    "balance": 250,
+    "balance": 500,
     "studentNumber": "s-7819002",
     "address": "Construction Ave 5, 3011 BC Rotterdam, Netherlands",
     "study": { "name": "Applied Physics", "startYear": 2023 },
     "birthday": "2005-09-30",
     "phone": "+31 6 87654321",
     "iban": "NL39RABO0300065264"
+  }
+  ,
+  {
+    "id": "1103",
+    "email": "alice@example.com",
+    "displayName": "Alice Example",
+    "balance": 120,
+    "studentNumber": "s-9003003",
+    "address": "Example Street 1, 3000 EX, Netherlands",
+    "study": { "name": "Literature", "startYear": 2021 },
+    "birthday": "1998-07-12",
+    "phone": "+31 6 55555555",
+    "iban": "NL00TEST0000000000"
+  },
+  {
+    "id": "1104",
+    "email": "charlie@example.com",
+    "displayName": "Charlie Example",
+    "balance": 0,
+    "studentNumber": "s-9004004",
+    "address": "Example Lane 2, 4000 EX, Netherlands",
+    "study": { "name": "Sociology", "startYear": 2020 },
+    "birthday": "1997-03-22",
+    "phone": "+31 6 44444444",
+    "iban": "NL11TEST1111111111"
   }
 ]

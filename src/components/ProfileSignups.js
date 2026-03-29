@@ -9,7 +9,7 @@ export default function ProfileSignups({ signups, loading, onCancel }) {
 
   return (
     <View style={{ marginTop: 16, flex: 1 }}>
-      <Text style={{ ...theme.typography.h2 }}>Your signups</Text>
+      <Text style={{ ...theme.typography.h2 }}>My signups</Text>
       {loading ? (
         <ActivityIndicator color={theme.colors.activate} />
       ) : (
