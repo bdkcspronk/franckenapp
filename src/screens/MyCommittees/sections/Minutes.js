@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, TextInput, FlatList, TouchableOpacity, Alert } from 'react-native';
+import AppButton from '../../../components/AppButton';
 import { useTheme } from '../../../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { expandShortCommands } from '../../../utils/shortCommands';
+import MeetingListItem from '../components/MeetingListItem';
+import meetingStorage from '../../../services/meetingStorage';
 
 const storageKey = (committeeId) => `committee:${committeeId}:minutes`;
 
@@ -13,6 +16,7 @@ export default function MinutesSection({ committeeId, canEdit }) {
   const [content, setContent] = useState('');
   const [agendas, setAgendas] = useState([]);
   const [selectedAgenda, setSelectedAgenda] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -20,20 +24,46 @@ export default function MinutesSection({ committeeId, canEdit }) {
       if (!mounted) return;
       if (v) setMinutes(JSON.parse(v));
     }).catch(() => {});
-    // also load agendas to allow linking
-    AsyncStorage.getItem(`committee:${committeeId}:agenda`).then((v) => { if (v && mounted) setAgendas(JSON.parse(v)); }).catch(() => {});
+    // load agendas via meetingStorage (reused)
+    meetingStorage.getMeetings(committeeId).then((v) => { if (v && mounted) setAgendas(v); }).catch(() => {});
     return () => (mounted = false);
   }, [committeeId]);
 
-  const save = async (next) => { try { await AsyncStorage.setItem(storageKey(committeeId), JSON.stringify(next)); } catch (e) {} };
+  const save = useCallback(async (next) => { try { await AsyncStorage.setItem(storageKey(committeeId), JSON.stringify(next)); } catch (e) {} }, [committeeId]);
 
-  const add = () => {
+  const handleSave = () => {
     if (!title.trim()) return;
     const processedTitle = expandShortCommands(title.trim());
     const processedContent = expandShortCommands(content.trim());
+
+    if (editingId) {
+      const next = minutes.map((m) => (m.id === editingId ? { ...m, title: processedTitle, content: processedContent, agendaId: selectedAgenda } : m));
+      setMinutes(next); setTitle(''); setContent(''); setSelectedAgenda(null); setEditingId(null); save(next);
+      return;
+    }
+
     const next = [{ id: Date.now().toString(), title: processedTitle, content: processedContent, agendaId: selectedAgenda, createdAt: new Date().toISOString() }, ...minutes];
     setMinutes(next); setTitle(''); setContent(''); setSelectedAgenda(null); save(next);
   };
+
+  const beginEdit = useCallback((item) => {
+    setTitle(item.title || '');
+    setContent(item.content || item.description || '');
+    setSelectedAgenda(item.agendaId || null);
+    setEditingId(item.id);
+  }, []);
+
+  const deleteItem = useCallback((id) => {
+    Alert.alert('Delete minutes', 'Are you sure you want to delete these minutes?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: async () => {
+        const next = minutes.filter((m) => m.id !== id);
+        setMinutes(next);
+        if (editingId === id) { setEditingId(null); setTitle(''); setContent(''); }
+        await save(next);
+      } }
+    ]);
+  }, [minutes, editingId, save]);
 
   return (
     <View>
@@ -47,7 +77,14 @@ export default function MinutesSection({ committeeId, canEdit }) {
               <Text style={{ color: selectedAgenda === a.id ? theme.colors.textLight : theme.colors.text }}>{a.title}</Text>
             </TouchableOpacity>
           ))}
-          <Button title="Create Minutes" onPress={add} />
+          {editingId ? (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <AppButton title="Save Changes" onPress={handleSave} style={{ flex: 1, marginRight: 8 }} />
+              <AppButton title="Cancel" variant="ghost" onPress={() => { setEditingId(null); setTitle(''); setContent(''); setSelectedAgenda(null); }} style={{ flex: 1, marginLeft: 8 }} />
+            </View>
+          ) : (
+            <AppButton title="Create Minutes" onPress={handleSave} />
+          )}
         </View>
       )}
 
@@ -59,12 +96,11 @@ export default function MinutesSection({ committeeId, canEdit }) {
             <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>No items yet.</Text>
           </View>
         )}
-        renderItem={({ item }) => (
-        <View style={{ padding: theme.spacing.md, marginBottom: theme.spacing.sm, backgroundColor: theme.colors.card, borderRadius: 8 }}>
-          <Text style={{ ...theme.typography.h3 }}>{item.title}</Text>
-          <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>{item.content}</Text>
-        </View>
-      )} />
+        renderItem={({ item }) => {
+          const mapped = { ...item, description: item.content, date: item.createdAt };
+          return <MeetingListItem item={mapped} membersList={[]} canEdit={canEdit} beginEdit={beginEdit} deleteItem={deleteItem} />;
+        }}
+      />
     </View>
   );
 }

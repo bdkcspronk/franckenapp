@@ -16,8 +16,8 @@ export default function ProfileScreen() {
 		{
 			title: 'Me',
 			items: [
-					{ key: 'personal', label: 'Personal Details', route: 'PersonalDetails' },
-					{ key: 'signups', label: 'My Signups', route: 'Signups' },
+				{ key: 'personal', label: 'Details', route: 'MyDetails' },
+				{ key: 'signups', label: 'My Signups', route: 'Signups' },
 			],
 		},
 		{
@@ -86,7 +86,7 @@ export default function ProfileScreen() {
 					</View>
 				) : (
 					<View style={{ marginTop: theme.spacing.xl }}>
-						<Text style={theme.typography.body}></Text>
+						
 					</View>
 				)}
 			</ScrollView>

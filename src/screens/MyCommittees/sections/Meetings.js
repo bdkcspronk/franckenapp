@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import { View, Text, TextInput, FlatList } from 'react-native';
+import AppButton from '../../../components/AppButton';
 import { useTheme } from '../../../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +37,7 @@ export default function MeetingsSection({ committeeId, canEdit }) {
         <View style={{ marginBottom: theme.spacing.md }}>
           <TextInput placeholder="Date / time" value={date} onChangeText={setDate} style={{ backgroundColor: theme.colors.canvas, padding: theme.spacing.sm, borderRadius: 6, marginBottom: theme.spacing.xs, borderWidth: 1, borderColor: theme.colors.muted }} />
           <TextInput placeholder="Notes (optional)" value={note} onChangeText={setNote} multiline numberOfLines={6} textAlignVertical="top" style={{ backgroundColor: theme.colors.canvas, padding: theme.spacing.sm, borderRadius: 6, marginBottom: theme.spacing.xs, borderWidth: 1, borderColor: theme.colors.muted, minHeight: 120 }} />
-          <Button title="Schedule Meeting" onPress={add} />
+          <AppButton title="Schedule Meeting" onPress={add} />
         </View>
       )}
 

@@ -6,8 +6,8 @@
     "members": ["1101", "1102", "1103", "1104"],
     "roles": {
       "chair": "1101",
-      "treasurer": "1103",
-      "secretary": "1104"
+      "treasurer": "1101",
+      "secretary": "1101"
     }
   },
   {

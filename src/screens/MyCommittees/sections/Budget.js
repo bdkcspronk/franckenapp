@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import { View, Text, TextInput, FlatList } from 'react-native';
+import AppButton from '../../../components/AppButton';
 import { useTheme } from '../../../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +37,7 @@ export default function BudgetSection({ committeeId, canEdit }) {
         <View style={{ marginBottom: theme.spacing.md }}>
           <TextInput placeholder="Item title" value={title} onChangeText={setTitle} style={{ backgroundColor: theme.colors.canvas, padding: theme.spacing.sm, borderRadius: 6, marginBottom: theme.spacing.xs, borderWidth: 1, borderColor: theme.colors.muted }} />
           <TextInput placeholder="Amount" value={amount} onChangeText={setAmount} keyboardType="numeric" style={{ backgroundColor: theme.colors.canvas, padding: theme.spacing.sm, borderRadius: 6, marginBottom: theme.spacing.xs, borderWidth: 1, borderColor: theme.colors.muted }} />
-          <Button title="Add Budget Item" onPress={add} />
+          <AppButton title="Add Budget Item" onPress={add} />
         </View>
       )}
 

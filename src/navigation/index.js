@@ -10,7 +10,7 @@ import ProfileScreen from '../screens/Profile/Screen';
 import MyCommitteesScreen from '../screens/MyCommittees/Screen';
 import WalletScreen from '../screens/Profile/Finances/Wallet';
 import CommitteeHomeScreen from '../screens/MyCommittees/CommitteeHome';
-import LoginScreen from '../screens/Profile/Me/Login';
+import LoginScreen from '../screens/Profile/Login';
 import PersonalDetailsScreen from '../screens/Profile/Me/PersonalDetails';
 import SignupsScreen from '../screens/Profile/Me/Signups';
 import FranckenVrijScreen from '../screens/Profile/Association/FranckenVrij';
@@ -131,7 +131,7 @@ export default function RootNavigator() {
       <Stack.Screen name="Event Details" component={EventDetailScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="PersonalDetails" component={PersonalDetailsScreen} options={{ title: 'My Details' }} />
+      <Stack.Screen name="MyDetails" component={PersonalDetailsScreen} options={{ title: 'My Details' }} />
       <Stack.Screen name="Signups" component={SignupsScreen} options={{ title: 'My Signups' }} />
       <Stack.Screen name="FranckenVrij" component={FranckenVrijScreen} options={{ title: 'Francken Vrij' }} />
       <Stack.Screen name="Committees" component={CommitteesScreen} options={{ title: 'Committees' }} />

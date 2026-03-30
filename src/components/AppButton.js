@@ -9,6 +9,7 @@ export default function AppButton({ title, onPress, variant = 'primary', color, 
   const variants = {
     primary: { background: theme.colors.activate, text: theme.colors.textLight },
     secondary: { background: theme.colors.accent, text: theme.colors.textLight },
+    tertiary: { background: theme.colors.muted, text: theme.colors.textLight },
     danger: { background: theme.colors.deactivate, text: theme.colors.textLight },
     ghost: { background: 'transparent', text: theme.colors.activate },
     activate: { background: theme.colors.activate, text: theme.colors.textLight },
