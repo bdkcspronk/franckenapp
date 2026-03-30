@@ -1,7 +1,8 @@
+// Purpose: Form to create/edit agenda items and export previews.
 import React from 'react';
 import { View, Text, TextInput, FlatList, Switch } from 'react-native';
-import { useTheme } from '../../../theme';
-import AppButton from '../../../components/AppButton';
+import { useTheme } from '../../../../theme';
+import AppButton from '../../../../components/AppButton';
 
 export default function MeetingEditor({ controller, canEdit }) {
   const theme = useTheme();

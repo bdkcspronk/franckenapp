@@ -1,10 +1,11 @@
+// Purpose: Committee agenda list and editor preview integration.
 import React, { useMemo } from 'react';
 import { View, FlatList, Dimensions, Text } from 'react-native';
 import { useTheme } from '../../../theme';
 import useMeetingEditor from '../../../hooks/useMeetingEditor';
-import MeetingEditor from '../components/MeetingEditor';
-import MeetingPreview from '../components/MeetingPreview';
-import MeetingListItem from '../components/MeetingListItem';
+import MeetingEditor from '../components/Agenda/MeetingEditor';
+import MeetingPreview from '../components/Agenda/MeetingPreview';
+import MeetingListItem from '../components/Agenda/MeetingListItem';
 
 export default function AgendaSection({ committeeId, canEdit }) {
   const theme = useTheme();
