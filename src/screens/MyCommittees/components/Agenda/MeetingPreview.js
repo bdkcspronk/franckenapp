@@ -1,7 +1,8 @@
+// Purpose: Render agenda preview HTML in a WebView.
 import React from 'react';
 import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { useTheme } from '../../../theme';
+import { useTheme } from '../../../../theme';
 
 export default function MeetingPreview({ controller, previewHeight }) {
   const theme = useTheme();

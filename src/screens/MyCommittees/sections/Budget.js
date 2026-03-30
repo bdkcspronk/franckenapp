@@ -1,3 +1,4 @@
+// Purpose: Committee budget items editor and listing.
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList } from 'react-native';
 import AppButton from '../../../components/AppButton';

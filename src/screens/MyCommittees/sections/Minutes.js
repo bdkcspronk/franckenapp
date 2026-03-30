@@ -1,10 +1,11 @@
+// Purpose: Manage meeting minutes for a committee (create/edit/delete).
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, Alert } from 'react-native';
 import AppButton from '../../../components/AppButton';
 import { useTheme } from '../../../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { expandShortCommands } from '../../../utils/shortCommands';
-import MeetingListItem from '../components/MeetingListItem';
+import MeetingListItem from '../components/Agenda/MeetingListItem';
 import meetingStorage from '../../../services/meetingStorage';
 
 const storageKey = (committeeId) => `committee:${committeeId}:minutes`;

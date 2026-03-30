@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { useTheme } from '../../../theme';
-import AppButton from '../../../components/AppButton';
+import { useTheme } from '../../../../theme';
+import AppButton from '../../../../components/AppButton';
 
 // Displays saved agendas
 export default function MeetingListItem({ item, membersList = [], canEdit, beginEdit, deleteItem }) {
