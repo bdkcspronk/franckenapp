@@ -6,7 +6,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../contexts/AuthContext';
 import { signUpForEvent, cancelSignUp, getMemberSignups } from '../../services/api';
 import { Asset } from 'expo-asset';
-import * as FileSystemLegacy from 'expo-file-system/legacy';
+import { File } from 'expo-file-system';
 import getPromosForEventId from '../../utils/promoAssets';
 import AppButton from '../../components/AppButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -87,10 +87,11 @@ export default function EventDetailScreen() {
 
       if (Platform.OS === 'android') {
         try {
-          const contentUri = await FileSystemLegacy.getContentUriAsync(localUri);
+          const fileRef = new File(localUri);
+          const contentUri = fileRef.contentUri || localUri;
           await Linking.openURL(contentUri);
         } catch (e) {
-          console.warn('getContentUriAsync/open failed', e);
+          console.warn('getContentUri/open failed', e);
           Alert.alert('Cannot open promo', 'Expo Go cannot open this PDF directly on Android. Try installing a dev client or opening the app as a standalone build.');
         }
       } else {
