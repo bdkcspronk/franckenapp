@@ -74,7 +74,7 @@ export default function CommitteeScreen() {
           for (const o of others) ordered.push(o);
 
             return ordered.map((m) => (
-            <View key={m.id} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: theme.spacing.xs }}>
+            <View key={`${m.role || 'member'}-${m.id}`} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: theme.spacing.xs }}>
               <Text style={{ ...theme.typography.body, color: theme.colors.text }}>{m.name}</Text>
               <Text style={{ ...theme.typography.body, color: theme.colors.muted }}>{m.role || ''}</Text>
             </View>

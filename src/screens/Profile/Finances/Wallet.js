@@ -69,7 +69,9 @@ export default function WalletScreen() {
 	// Member card QR state and payload
 	const [now, setNow] = useState(null);
 	const TEST_SECRET = 'FRANCKEN1984';
-	const payload = makeQrPayload(user.uid || user.email, TEST_SECRET, now);
+	// The QR code encodes a numeric member number (mock members use their numeric id)
+	const qrMemberId = user.memberNumber ?? (user.uid || user.email);
+	const payload = makeQrPayload(qrMemberId, TEST_SECRET, now);
 	const decoded = decodeQrPayload(payload, TEST_SECRET);
 
 	// sample/fake purchases for UI preview (amounts in cents)
@@ -89,7 +91,7 @@ export default function WalletScreen() {
 				<>
 					<View style={{ alignItems: 'center', marginBottom: theme.spacing.xl }}>
 						<Text style={{ ...theme.typography.h2, marginBottom: theme.spacing.md }}>Member Card:</Text>
-						<MemberQRCode memberId={user.uid || user.email} size={350} now={now} />
+						<MemberQRCode memberId={qrMemberId} size={350} now={now} />
 						<TouchableOpacity style={{ backgroundColor: theme.colors.activate, marginTop: theme.spacing.md, paddingVertical: theme.spacing.md, paddingHorizontal: theme.spacing.md, borderRadius: 6 }} onPress={() => setNow(new Date().toISOString())}>
 								<Text style={{ color: theme.colors.textLight, ...theme.typography.label }}>Refresh QR</Text>
 							</TouchableOpacity>

@@ -40,17 +40,20 @@ function result(promise) {
 }
 
 // ─── Mapping to the shapes the screens use ───────────────────────────────────
+// Events are passed to screens as navigation params, so dates are ISO strings (navigation state must be plain data)
+const iso = (date) => (date ? date.toISOString() : null);
+
 function toEvent(snap) {
   const a = snap.data();
   const start = toDate(a.startDate);
-  const settings = a.signUpSettings ? { ...a.signUpSettings, deadlineAt: toDate(a.signUpSettings.deadlineAt) } : null;
+  const settings = a.signUpSettings ? { ...a.signUpSettings, deadlineAt: iso(toDate(a.signUpSettings.deadlineAt)) } : null;
   return {
     id: snap.id,
     slug: a.slug,
     title: a.name,
     date: day(start),
-    start,
-    end: toDate(a.endDate),
+    start: iso(start),
+    end: iso(toDate(a.endDate)),
     location: a.location,
     summary: a.summary,
     description: a.sourceContent || a.summary || '',
@@ -140,7 +143,7 @@ export async function fetchNews() {
 export async function fetchEvents() {
   const { db } = getFirebase();
   const snap = await getDocs(query(collection(db, 'activities'), where('endDate', '>', new Date())));
-  return snap.docs.map(toEvent).sort((a, b) => a.start - b.start);
+  return snap.docs.map(toEvent).sort((a, b) => a.start.localeCompare(b.start));
 }
 
 // ─── Sign ups ────────────────────────────────────────────────────────────────
@@ -211,7 +214,7 @@ export async function getMemberSignups() {
       return activity.exists() ? { id: activity.id, eventId: activity.id, event: toEvent(activity) } : null;
     }),
   );
-  return items.filter(Boolean).sort((a, b) => b.event.start - a.event.start);
+  return items.filter(Boolean).sort((a, b) => b.event.start.localeCompare(a.event.start));
 }
 
 // ─── Not on the website yet (wallet, book sales) ─────────────────────────────
