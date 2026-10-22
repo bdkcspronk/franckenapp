@@ -6,7 +6,7 @@
     "balance": 1000,
     "studentNumber": "s-9001001",
     "address": "Demo Street 1, 9700 AB Groningen, Netherlands",
-    "study": { "name": "Physics", "startYear": 2015 },
+    "study": { "name": "Physics", "startYear": 2022 },
     "birthday": "2003-01-01",
     "phone": "+31 6 12345678",
     "iban": "NL91ABNA0417164300"
