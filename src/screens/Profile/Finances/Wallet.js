@@ -13,10 +13,11 @@ export default function WalletScreen() {
 
 	if (!user) return null;
 
-	// numeric balance in cents (use `user.balance` if provided, otherwise fallback to 9099 cents = €90.99)
-	const balanceCents = typeof user.balance === 'number' ? user.balance : 9099;
+	// numeric balance in cents; null when unknown (the wallet isn't in Firebase yet)
+	const balanceCents = typeof user.balance === 'number' ? user.balance : null;
 
 	const formatBalance = (cents) => {
+		if (cents === null) return 'Not available yet';
 		const v = cents / 100;
 		try {
 			return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(v);

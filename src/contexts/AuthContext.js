@@ -3,11 +3,18 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import appConfig from '../config/appConfig';
 import * as api from '../services/api';
 
-let firebaseInitialized = false;
-let auth = null;
-let firebaseSignOut = null;
-
 const AuthContext = createContext({ user: null, signOut: () => {} });
+
+// Firebase is only loaded outside mock mode
+const firebase = () => require('../firebase').getFirebase();
+const firebaseAuth = () => require('firebase/auth');
+
+const LOGIN_ERRORS = {
+  'auth/invalid-credential': 'Wrong email address or password.',
+  'auth/invalid-email': 'That is not a valid email address.',
+  'auth/too-many-requests': 'Too many attempts. Please try again later.',
+  'auth/network-request-failed': 'No internet connection.',
+};
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -28,26 +35,19 @@ export function AuthProvider({ children }) {
         // fallback if loading fails
         setUser({ uid: 'u1', email: 'alice@example.com', displayName: 'Alice Wonder' });
       }
-      return;
+      return undefined;
     }
 
-    // Lazy-load Firebase only when not in mock mode.
-    async function initFirebase() {
-      if (!firebaseInitialized) {
-        const { initializeApp } = await import('firebase/app');
-        const { getAuth, onAuthStateChanged, signOut } = await import('firebase/auth');
-        const firebaseConfig = (await import('../firebase/config')).default;
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        firebaseSignOut = signOut;
-        firebaseInitialized = true;
-
-        const unsub = onAuthStateChanged(auth, (u) => setUser(u));
-        return () => unsub();
+    // Also restores the login from the previous session
+    return firebaseAuth().onAuthStateChanged(firebase().auth, async (u) => {
+      if (!u) return setUser(null);
+      try {
+        setUser(await api.getMember(u.uid));
+      } catch (e) {
+        console.warn('Failed to load profile', e);
+        setUser({ uid: u.uid, email: u.email });
       }
-    }
-
-    initFirebase();
+    });
   }, []);
 
   function signOut() {
@@ -55,8 +55,7 @@ export function AuthProvider({ children }) {
       setUser(null);
       return Promise.resolve();
     }
-    if (firebaseSignOut && auth) return firebaseSignOut(auth);
-    return Promise.resolve();
+    return firebaseAuth().signOut(firebase().auth);
   }
 
   async function signIn(email, password) {
@@ -75,24 +74,12 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      if (!firebaseInitialized) {
-        const { initializeApp } = await import('firebase/app');
-        const { getAuth, onAuthStateChanged, signOut } = await import('firebase/auth');
-        const firebaseConfig = (await import('../firebase/config')).default;
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        firebaseSignOut = signOut;
-        firebaseInitialized = true;
-
-        const unsub = onAuthStateChanged(auth, (u) => setUser(u));
-        if (unsub) unsub();
-      }
-      const { signInWithEmailAndPassword } = await import('firebase/auth');
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      setUser(cred.user);
-      return { ok: true, user: cred.user };
+      const cred = await firebaseAuth().signInWithEmailAndPassword(firebase().auth, email.trim(), password);
+      const profile = await api.getMember(cred.user.uid);
+      setUser(profile);
+      return { ok: true, user: profile };
     } catch (e) {
-      return { ok: false, message: e.message };
+      return { ok: false, message: LOGIN_ERRORS[e.code] || e.message };
     }
   }
 
@@ -101,35 +88,15 @@ export function AuthProvider({ children }) {
     const safeUpdates = { ...updates };
     if (safeUpdates.hasOwnProperty('studentNumber')) delete safeUpdates.studentNumber;
 
-    if (appConfig.useMock) {
-      try {
-        const idOrEmail = (user && (user.uid || user.email));
-        if (!idOrEmail) return { ok: false, message: 'No authenticated user' };
-        const res = await api.updateMember(idOrEmail, safeUpdates);
-        if (res && res.ok && res.member) {
-          setUser((prev) => ({ ...prev, ...res.member }));
-          return { ok: true, user: res.member };
-        }
-        // fallback if implementation returns member directly
-        if (res && res.member) {
-          setUser((prev) => ({ ...prev, ...res.member }));
-          return { ok: true, user: res.member };
-        }
-        return { ok: false, message: res && res.message ? res.message : 'Update failed' };
-      } catch (e) {
-        return { ok: false, message: e.message };
-      }
-    }
-
     try {
-      const { updateProfile } = await import('firebase/auth');
-      if (auth && auth.currentUser) {
-        // firebase updateProfile supports only displayName and photoURL; pass safeUpdates to be cautious
-        await updateProfile(auth.currentUser, safeUpdates);
-        setUser(auth.currentUser);
-        return { ok: true, user: auth.currentUser };
+      const idOrEmail = user && (user.uid || user.email);
+      if (!idOrEmail) return { ok: false, message: 'No authenticated user' };
+      const res = await api.updateMember(idOrEmail, safeUpdates);
+      if (res && res.member) {
+        setUser((prev) => ({ ...prev, ...res.member }));
+        return { ok: true, user: res.member };
       }
-      return { ok: false, message: 'No firebase user' };
+      return { ok: false, message: res && res.message ? res.message : 'Update failed' };
     } catch (e) {
       return { ok: false, message: e.message };
     }

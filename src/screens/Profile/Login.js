@@ -5,9 +5,11 @@ import { useTheme } from '../../theme';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import AppButton from '../../components/AppButton';
+import appConfig from '../../config/appConfig';
 
 export default function LoginScreen() {
-    const [email, setEmail] = useState('demo@example.com');
+    // In mock mode any member from mocks/members.json can log in (without a password)
+    const [email, setEmail] = useState(appConfig.useMock ? 'demo@example.com' : '');
     const [password, setPassword] = useState('');
     const { signIn } = useAuth();
     const navigation = useNavigation();
