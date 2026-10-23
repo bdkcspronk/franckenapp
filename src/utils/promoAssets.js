@@ -1,6 +1,5 @@
 // GENERATED FILE - DO NOT EDIT
 // Run scripts/generate-promo-assets.js to regenerate.
-// Purpose: Provide a mapping of event IDs to promotional assets (PDFs).
 
 const promos = {
   '1': [ require('../../assets/promo/1.pdf') ],
